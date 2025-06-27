@@ -12,6 +12,26 @@ class ImportStagingData
     {
         global $pdo; // Use the global PDO instance
         $this->db = $pdo;
+        $this->createStagingTable(); // Ensure the staging table exists
+    }
+
+    private function createStagingTable()
+    {
+        $sql = "CREATE TABLE IF NOT EXISTS staging_table (
+        Customer_Id INT PRIMARY KEY,
+        First_Name VARCHAR(50),
+        Last_Name VARCHAR(50),
+        Company VARCHAR(150),
+        City VARCHAR(50),
+        Country VARCHAR(50),
+        Phone_1 VARCHAR(20),
+        Phone_2 VARCHAR(20),
+        Email VARCHAR(100),
+        Subscription_Date DATE,
+        Website VARCHAR(250)
+    )" . PHP_EOL .
+            "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+        $this->db->exec($sql);
     }
 
     // Model properties and methods go here
@@ -55,6 +75,11 @@ class ImportStagingData
     {
         $stmt = $this->db->prepare("DELETE FROM staging_table WHERE Customer_Id = :customer_id");
         $stmt->execute([':customer_id' => $customerId]);
+    }
+
+    public function __destruct()
+    {
+        $this->db = null; // Close the database connection
     }
 }
 //         

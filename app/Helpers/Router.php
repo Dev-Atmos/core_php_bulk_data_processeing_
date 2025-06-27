@@ -52,6 +52,8 @@ class Router
                 return;
             case '/import-staging-data-submit':
                 \App\Middleware\AuthMiddleware::check();
+                (new \App\Controllers\ImportStagingController)->importStagingDataSubmit();
+                self::$activeTab = 'import-staging-data-submit';
                 
                 return;
 

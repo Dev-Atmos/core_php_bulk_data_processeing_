@@ -25,10 +25,9 @@ class ImportStagingController
 
     private function readCSV($filePath)
     {
-        // Read a CSV file and return its contents as an array
         $handle = fopen($filePath, 'r');
         if (!$handle) {
-            throw new \Exception("Unable to open file.");
+            throw new \Exception("Unable to open CSV.");
         }
 
         $header = fgetcsv($handle);
@@ -40,27 +39,42 @@ class ImportStagingController
     }
 
 
-
-
     public function importStagingDataSubmit()
     {
         // Handle the form submission for importing staging data
         set_time_limit(0);
         ini_set('memory_limit', '512M');
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            var_dump($_FILES);
+            if (!isset($_FILES['csv_file']) || $_FILES['csv_file']['error'] !== UPLOAD_ERR_OK) {
+                die("❌ Upload failed.");
+            }
+
+            $uploadPath = UPLOAD_PATH;
+            if (!is_dir($uploadPath)) {
+                mkdir($uploadPath, 0777, true);
+            }
+            $fileName = basename($_FILES['csv_file']['name']);
+            $targetPath = $uploadPath . $fileName;
+
             $data = !empty($_FILES) ? $_FILES : [];
-            move_uploaded_file($data['file']['tmp_name'], UPLOAD_PATH . $data['file']['name']);
+
+
+            if (!move_uploaded_file($_FILES['csv_file']['tmp_name'], $targetPath)) {
+                die("❌ Could not move uploaded file.");
+            }
             // Assuming the file is a CSV, read it and convert to an array
             $batch = [];
             $batchSize = 200;
             $line = 0;
 
-            foreach ($this->readCSV(UPLOAD_PATH . $data['file']['name']) as $row) {
+            foreach ($this->readCSV($targetPath) as $row) {
                 $batch[] = $row;
                 $line++;
 
-                if ($line % $batchSize === 0) {
+                if (count($batch) >= $batchSize) {
                     $this->importData($batch);
+                    log_info("Imported batch at line $line");
                     $batch = [];
                 }
             }
@@ -68,11 +82,13 @@ class ImportStagingController
             // Import remaining rows
             if (!empty($batch)) {
                 $this->importData($batch);
+                log_info("Imported batch at line $line");
             }
+            flashMessage('import_staging_data', '✅ Data imported successfully!', 'success');
         }
 
         // Render the import staging data form view
-        require_once VIEW_PATH . 'import_staging_data.php';
+        redirect('import-staging-data');
     }
 
     public function importData(array $data)

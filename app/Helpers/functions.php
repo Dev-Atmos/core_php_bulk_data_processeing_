@@ -83,3 +83,17 @@ if (!function_exists('url_segment')) {
         return $segments[$n - 1] ?? null;
     }
 }
+
+use App\Helpers\Logger;
+
+if (!function_exists('log_info')) {
+    function log_info($msg, $file = 'app.log') {
+        Logger::info($msg, $file);
+    }
+}
+
+if (!function_exists('log_error')) {
+    function log_error($msg, $file = 'error.log') {
+        Logger::error($msg, $file);
+    }
+}
