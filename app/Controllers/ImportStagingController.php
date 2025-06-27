@@ -32,7 +32,20 @@ class ImportStagingController
 
         $header = fgetcsv($handle);
         while (($row = fgetcsv($handle)) !== false) {
-            yield array_combine($header, $row);
+           
+            $data = [];
+            $data['Customer_Id'] = $row[1];
+            $data['First_Name'] = $row[2];
+            $data['Last_Name'] = $row[3];
+            $data['Company'] = $row[4];
+            $data['City'] = $row[5];
+            $data['Country'] = $row[6];
+            $data['Phone_1'] = $row[7];
+            $data['Phone_2'] = $row[8];
+            $data['Email'] = $row[9];
+            $data['Subscription_Date'] = $row[10];
+            $data['Website'] = $row[11];
+            yield $data;
         }
 
         fclose($handle);

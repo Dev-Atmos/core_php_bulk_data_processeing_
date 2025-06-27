@@ -18,7 +18,8 @@ class ImportStagingData
     private function createStagingTable()
     {
         $sql = "CREATE TABLE IF NOT EXISTS staging_table (
-        Customer_Id INT PRIMARY KEY,
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        Customer_Id INT ,
         First_Name VARCHAR(50),
         Last_Name VARCHAR(50),
         Company VARCHAR(150),
