@@ -78,7 +78,7 @@ class ImportStagingController
             }
             // Assuming the file is a CSV, read it and convert to an array
             $batch = [];
-            $batchSize = 200;
+            $batchSize = 500;
             $line = 0;
 
             foreach ($this->readCSV($targetPath) as $row) {
