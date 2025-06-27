@@ -21,7 +21,7 @@ class AuthMiddleware
     }
     public static function getUserName()
     {
-        return isset($_SESSION['user_name']) ? $_SESSION['user_name'] : 'Guest';
+        return isset($_SESSION['name']) ? $_SESSION['name'] : 'Guest';
     }
     public static function redirectIfNotLoggedIn()
     {

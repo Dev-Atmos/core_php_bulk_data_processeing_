@@ -65,7 +65,7 @@ if (!function_exists('getCurrentUser')) {
 if (!function_exists('getUserName')) {
     function getUserName()
     {
-        return isset($_SESSION['user_name']) ? $_SESSION['user_name'] : 'Guest';
+        return isset($_SESSION['name']) ? $_SESSION['name'] : 'Guest';
     }
 }
 
