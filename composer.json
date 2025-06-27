@@ -1,0 +1,10 @@
+{
+    "name": "dev-atmos/core-php-bulk-data-processing",
+    "description": "Core PHP Excel/CSV bulk data processing",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "require": {}
+}
