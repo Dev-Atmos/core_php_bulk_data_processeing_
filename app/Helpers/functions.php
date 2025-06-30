@@ -79,7 +79,7 @@ if (!function_exists('url_segment')) {
     {
         $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
         $segments = explode('/', $uri);
-        
+
         return $segments[$n - 1] ?? null;
     }
 }
@@ -87,13 +87,20 @@ if (!function_exists('url_segment')) {
 use App\Helpers\Logger;
 
 if (!function_exists('log_info')) {
-    function log_info($msg, $file = 'app.log') {
+    function log_info($msg, $file = 'app.log')
+    {
         Logger::info($msg, $file);
     }
 }
 
 if (!function_exists('log_error')) {
-    function log_error($msg, $file = 'error.log') {
+    function log_error($msg, $file = 'error.log')
+    {
         Logger::error($msg, $file);
     }
+}
+
+function clear_view_cache(): void
+{
+    array_map('unlink', glob(CACHE_PATH . '*.html'));
 }

@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$db   = 'bult_data_processing';
+$db   = 'bulk_data_processing';
 $user = 'root';
 $pass = '';
 $charset = 'utf8mb4';

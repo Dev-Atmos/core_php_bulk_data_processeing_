@@ -37,8 +37,7 @@ class Router
 
             case '/dashboard':
                 \App\Middleware\AuthMiddleware::check();
-                require_once VIEW_PATH . 'dashboard.php';
-                self::$activeTab = 'dashboard';
+                (new \App\Controllers\DashboardController)->index();                
                 return;
 
             case '/logout':
@@ -54,8 +53,16 @@ class Router
                 \App\Middleware\AuthMiddleware::check();
                 (new \App\Controllers\ImportStagingController)->importStagingDataSubmit();
                 self::$activeTab = 'import-staging-data-submit';
-                
+
                 return;
+            case '/seed-ecommerce':
+                \App\Middleware\AuthMiddleware::check();
+                (new \App\Controllers\SeederController)->runEcommerceSeeder();
+                break;
+            case '/seed-product-order':
+                \App\Middleware\AuthMiddleware::check();
+                (new \App\Controllers\SeederController)->runProductOrderSeeder();
+                self::$activeTab = 'seed-product-order';
 
             default:
                 // If no static route matches, we assume it's a dynamic route
