@@ -3,7 +3,8 @@
 namespace App\Seeders;
 
 use PDO;
-
+ini_set('memory_limit', '512M');
+ini_set('max_execution_time', '600'); // 10 minutes
 class ProductOrderSeeder
 {
     private PDO $db;
